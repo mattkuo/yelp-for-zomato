@@ -1,0 +1,16 @@
+{
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "manifest_version": 2,
+  "name": "Yelp for Zomato",
+  "version": "0.0.1",
+  "description": "View Yelp reviews on Zomato",
+  "permissions": [
+    "http://*.yelp.com/"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.zomato.com/*"],
+      "js": ["lib/jquery-2.1.4.min.js", "main.js"]
+    }
+  ]
+}
