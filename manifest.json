@@ -5,12 +5,13 @@
   "version": "0.0.1",
   "description": "View Yelp reviews on Zomato",
   "permissions": [
-    "http://*.yelp.com/"
+    "http://*.yelp.com/*",
+		"https://www.zomato.com/*"
   ],
   "content_scripts": [
     {
       "matches": ["https://www.zomato.com/*"],
-      "js": ["lib/jquery-2.1.4.min.js", "main.js"]
+      "js": ["lib/jquery-2.1.4.min.js", "lib/oauth-signature.min.js", "main.js"]
     }
   ]
 }
