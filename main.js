@@ -6,7 +6,7 @@
 		var params = {
 			term: name,
 			location: address,
-			limit: 1,
+			limit: 5,
 			oauth_consumer_key: 'WY4Tg4568H1-rentOE5hmQ',
 			oauth_token: 'Ua_W7GZogS6oFUePDR6LCGaILp5Ld7Vm',
 			oauth_signature_method: 'HMAC-SHA1',
@@ -44,18 +44,20 @@
     var starRating = _createStarRating();
 		acquireRating(restaurantName, address, function(result) {
 			var $ratingBox = $('.res-rating');
-      var stars = starRating(result.rating);
+      var stars = starRating(result.rating, result.url, result.review_count);
+      console.log(stars);
 			$ratingBox.append(stars);
 		});
 	}
 
   function _createStarRating() {
     var containerA;
-    var getDiv = function(rating) {
+    var getDiv = function(rating, url, numRatings) {
       if (containerA == undefined) {
         var containerA = document.createElement('a');
         containerA.classList.add('yelp-rating');
-        containerA.setAttribute('data-rating', rating);
+
+        containerA.target = '_blank';
 
         for (var i = 1; i <= 5; i++) {
           var star = document.createElement('i');
@@ -66,6 +68,11 @@
       }
 
       var container = containerA.cloneNode(true);
+      container.setAttribute('data-rating', rating);
+      container.setAttribute('href', url);
+      var span = document.createElement('span');
+      span.innerHTML = numRatings;
+      container.appendChild(span);
       return container;
     };
 

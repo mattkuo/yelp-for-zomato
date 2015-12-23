@@ -3,6 +3,7 @@
 .yelp-rating {
   margin: 10px 0;
   line-height: 2.5;
+  text-decoration: none !important;
 }
 
 .yelp-rating i {
