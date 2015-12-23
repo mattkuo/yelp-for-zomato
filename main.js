@@ -31,6 +31,7 @@
 			url: 'https://api.yelp.com/v2/search',
 			data: params,
 			success: function(results) {
+        console.log(results);
 				cb(results.businesses[0]);
 			}
 		});
@@ -40,16 +41,36 @@
 	function addYelpRating() {
 		var address = _getOwnText($('.res-main-address-text')),
 				restaurantName = $('.res-name span[itemprop=name]').text().trim();
-
+    var starRating = _createStarRating();
 		acquireRating(restaurantName, address, function(result) {
-			var $ratingBox = $('.res-rating'),
-					$newImage = $('<img>');
-
-			$newImage.attr('src', result.rating_img_url_small);
-
-			$ratingBox.append($newImage);
-		})
+			var $ratingBox = $('.res-rating');
+      var stars = starRating(result.rating);
+			$ratingBox.append(stars);
+		});
 	}
+
+  function _createStarRating() {
+    var containerA;
+    var getDiv = function(rating) {
+      if (containerA == undefined) {
+        var containerA = document.createElement('a');
+        containerA.classList.add('yelp-rating');
+        containerA.setAttribute('data-rating', rating);
+
+        for (var i = 1; i <= 5; i++) {
+          var star = document.createElement('i');
+          star.innerHTML = '★';
+          star.classList.add('star-' + i);
+          containerA.appendChild(star);
+        }
+      }
+
+      var container = containerA.cloneNode(true);
+      return container;
+    };
+
+    return getDiv;
+  }
 
 	function _getOwnText($obj) {
 		return $obj.clone().children().remove().end().text().trim();
