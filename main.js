@@ -45,7 +45,6 @@
 		acquireRating(restaurantName, address, function(result) {
 			var $ratingBox = $('.res-rating');
       var stars = starRating(result.rating, result.url, result.review_count);
-      console.log(stars);
 			$ratingBox.append(stars);
 		});
 	}
@@ -65,14 +64,24 @@
           star.classList.add('star-' + i);
           containerA.appendChild(star);
         }
+
+        var tooltip = document.createElement('span');
+        tooltip.innerHTML = 'Click to see ratings on Yelp.com';
+        tooltip.classList.add('yelp-tooltip');
+        containerA.appendChild(tooltip);
       }
 
       var container = containerA.cloneNode(true);
+
+      // Set restaurant specific setting here
       container.setAttribute('data-rating', rating);
       container.setAttribute('href', url);
       var span = document.createElement('span');
       span.innerHTML = numRatings;
+      span.classList.add('yelp-num-ratings');
+
       container.appendChild(span);
+
       return container;
     };
 
