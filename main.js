@@ -39,9 +39,13 @@
 	}
 
 	function addYelpRating() {
-		var address = _getOwnText($('.res-main-address-text')),
+		var address = $('.nhu > b').text().trim(),
 				restaurantName = $('.res-name span[itemprop=name]').text().trim();
     var starRating = _createStarRating();
+
+    var city = document.location.href.split('/')[3];
+    address += ' ' + city;
+
 		acquireRating(restaurantName, address, function(result) {
 			var $ratingBox = $('.res-rating');
       var stars = starRating(result.rating, result.url, result.review_count);
