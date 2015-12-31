@@ -1,11 +1,10 @@
 /* global oauthSignature */
 (function() {
 
-	function acquireRating(name, address, cb) {
+	function acquireRating(phone, cb) {
 
 		var params = {
-			term: name,
-			location: address,
+			phone: phone,
 			limit: 5,
 			oauth_consumer_key: 'WY4Tg4568H1-rentOE5hmQ',
 			oauth_token: 'Ua_W7GZogS6oFUePDR6LCGaILp5Ld7Vm',
@@ -19,7 +18,7 @@
 
 		params.oauth_signature = oauthSignature.generate(
 			'GET',
-			'https://api.yelp.com/v2/search',
+			'https://api.yelp.com/v2/phone_search',
 			params,
 			consumerSecret,
 			tokenSecret,
@@ -28,10 +27,9 @@
 
 		$.ajax({
 			type: 'GET',
-			url: 'https://api.yelp.com/v2/search',
+			url: 'https://api.yelp.com/v2/phone_search',
 			data: params,
 			success: function(results) {
-        console.log(results);
 				cb(results.businesses[0]);
 			}
 		});
@@ -39,20 +37,17 @@
 	}
 
 	function addYelpRating() {
-		var address = $('.nhu > b').text().trim(),
-				restaurantName = $('.res-name span[itemprop=name]').text().trim();
     var starRating = _createStarRating();
+    var phone = $('.res-tel span.tel').text();
 
-    var city = document.location.href.split('/')[3];
-    address += ' ' + city;
-
-		acquireRating(restaurantName, address, function(result) {
+		acquireRating(phone, function(result) {
 			var $ratingBox = $('.res-rating');
       var stars = starRating(result.rating, result.url, result.review_count);
 			$ratingBox.append(stars);
 		});
 	}
 
+  // Returns a function which returns a DOM element container with stars
   function _createStarRating() {
     var containerA;
     var getDiv = function(rating, url, numRatings) {
@@ -92,10 +87,7 @@
     return getDiv;
   }
 
-	function _getOwnText($obj) {
-		return $obj.clone().children().remove().end().text().trim();
-	}
-
+  // Create nonce for oauth
 	function _createNonce() {
 		var text = '';
 		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
