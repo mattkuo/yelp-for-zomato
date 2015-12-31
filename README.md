@@ -11,4 +11,5 @@ You can load this project into Chrome for developing as explained [here](https:/
 
 ## TODO ##
 
-- [ ] Add Yelp ratings to search and recommendations bar on the right
+- [ ] Add Yelp ratings to search results
+- [ ] Add Yelp ratings recommendations bar on the right sidebar
